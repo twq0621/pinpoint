@@ -51,12 +51,17 @@ public class ClassPathResolver {
     private Pattern agentCorePattern;
     private List<String> fileExtensionList;
     private String bootStrapCoreJar;
-
+    /**
+     * 初始化core包的路径,agent的路径以及当前classpath路径
+     */
     public ClassPathResolver() {
         this(getClassPathFromSystemProperty());
     }
 
-
+    /**
+     *  初始化core包的路径,agent的路径以及当前classpath路径
+     * @param classPath
+     */
     public ClassPathResolver(String classPath) {
         this.classPath = classPath;
         this.agentPattern = DEFAULT_AGENT_PATTERN;

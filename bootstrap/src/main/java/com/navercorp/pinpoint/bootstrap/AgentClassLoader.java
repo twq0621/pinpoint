@@ -46,8 +46,13 @@ public class AgentClassLoader {
         if (urls == null) {
             throw new NullPointerException("urls");
         }
-
+         /**
+          * 获取当前的类加载器
+          */
         ClassLoader bootStrapClassLoader = AgentClassLoader.class.getClassLoader();
+         /**
+          * 将pinpoint的包加载进来
+          */
         this.classLoader = createClassLoader(urls, bootStrapClassLoader);
 
         this.executeTemplate = new ContextClassLoaderExecuteTemplate<Object>(classLoader);
@@ -55,6 +60,9 @@ public class AgentClassLoader {
 
     private PinpointURLClassLoader createClassLoader(final URL[] urls, final ClassLoader bootStrapClassLoader) {
         if (SECURITY_MANAGER != null) {
+        	   /**
+        	    * 这是一个很厉害的特权方法,想干嘛就干嘛
+        	    */
             return AccessController.doPrivileged(new PrivilegedAction<PinpointURLClassLoader>() {
                 public PinpointURLClassLoader run() {
                     return new PinpointURLClassLoader(urls, bootStrapClassLoader);

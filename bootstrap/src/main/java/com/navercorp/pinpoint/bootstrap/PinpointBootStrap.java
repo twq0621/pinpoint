@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 /**
  * @author emeroad
  * @author netspider
+ * 字节码代理启动类
  */
 public class PinpointBootStrap {
 
@@ -76,6 +77,9 @@ public class PinpointBootStrap {
             return;
         }
         logger.info("load pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar :" + bootStrapCoreJar);
+        /****
+         * 类似于动态添加classpath
+         */
         instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreJarFile);
 
         if (!isValidId("pinpoint.agentId", PinpointConstants.AGENT_NAME_MAX_LEN)) {
@@ -123,7 +127,9 @@ public class PinpointBootStrap {
             return null;
         }
     }
-
+    /**
+     * 启动agent失败
+     */
     private static void logPinpointAgentLoadFail() {
         final String errorLog =
             "*****************************************************************************\n" +
@@ -136,7 +142,10 @@ public class PinpointBootStrap {
     static boolean getLoadState() {
         return LOAD_STATE.get();
     }
-
+    /**
+     * 判断是否启动了多个服务,以及启动了则返回true  
+     * @return
+     */
     private static boolean checkDuplicateLoadState() {
         final boolean startSuccess = LOAD_STATE.compareAndSet(STATE_NONE, STATE_STARTED);
         if (startSuccess) {
@@ -208,7 +217,11 @@ public class PinpointBootStrap {
         return null;
     }
 
-
+    /**
+     * 获取classPathResolver中agentJarPath,agentLibPath 包的实际路径便于加载
+     * @param classPathResolver
+     * @return
+     */
     private static List<URL> resolveLib(ClassPathResolver classPathResolver)  {
         // this method may handle only absolute path,  need to handle relative path (./..agentlib/lib)
         String agentJarFullPath = classPathResolver.getAgentJarFullPath();
