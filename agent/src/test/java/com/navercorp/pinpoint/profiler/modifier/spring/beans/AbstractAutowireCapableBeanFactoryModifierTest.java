@@ -27,7 +27,9 @@ import com.navercorp.pinpoint.test.fork.PinpointConfig;
 @RunWith(ForkRunner.class)
 @PinpointConfig("pinpoint-spring-bean-test.config")
 public class AbstractAutowireCapableBeanFactoryModifierTest {
-
+    /***
+     * 不知道这是什么鬼,跑不起来
+     */
     @Test
     public void test() {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-beans-test.xml");
